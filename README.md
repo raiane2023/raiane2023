@@ -1,11 +1,17 @@
 Instalar Linux
+
 Comandos:
+
 ls: mostra o que tem na pasta
+
 ll: descrição detalhado dor meus arquivos e pastas
+
 cd: entra na pasta que estou escrevendo
 cd ..: volta para a pasta
+
 mkdir: criar pasta (ex: testlinux)
 cd testlinux: abrir a pasta
+
 tab: completa os nomes automaticamente
 nano: criar ou editar um arquivo
 comando --help: mostra as opções a usar (ex: -h)
