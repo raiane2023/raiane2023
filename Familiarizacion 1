@@ -1,0 +1,16 @@
+COMANDOS 04/06
+PWD: Onde estas
+CD: muda de diretorio
+MKDIR: cria diretório
+Ls: Lista os arquivos
+..: Voltar ao diretório 
+cd../../../
+cd ~: vola a home 
+cd -: ultimo diretório passado
+wget curl: Descarregar arquivos
+nano: editor de texto
+cat: o que há dentro
+head: primeiras linhas
+Tail: Ultimas linhas 
+grep: busca expressoes regulares dentro de uma artigo de txt
+awk '{ print $1 }' : para filtrar Colunas 
