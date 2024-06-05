@@ -15,3 +15,6 @@ head: primeiras linhas
 Tail: Ultimas linhas 
 grep: busca expressoes regulares dentro de uma artigo de txt
 awk '{ print $1 }' : para filtrar Colunas 
+md5sun: verifica qualidade da transferencia (ex: md5sum -c nome do arquivo)
+scp, rsync, sftp: descarrega arquivos remotamente.
+rsync: descarrega e verefica a qualidade
