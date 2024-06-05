@@ -1,0 +1,18 @@
+Scripts:
+>nano
+md5sum nombre.vgf > md5sum-vcf.txt
+ctrlO: nomeia o mome: md5sum.thais.sh
+terminado em SH: arquivo bash
+Eliminar uma pasta: rm -r nome
+chmod +x nome: faz com que o Scrip seja executavel sozinho- EMPODERA
+nohup ./rosa.sh: entrega um arquivo de out 
+./ situa a carpeta
+# bu bash: como será seu arquivo
+# pbs -n: nome do arquivo
+# pbs -waltime: 16:00:00
+# pbs -j: 40
+# pbs - email
+|Modulos 
+Toolchain
+Entorno de variabels|
+> converter
