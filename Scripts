@@ -16,3 +16,20 @@ nohup ./rosa.sh: entrega um arquivo de out
 Toolchain
 Entorno de variabels|
 > converter
+Abrir Nano: escrever Fastqc 
+banded1-R1-1.fastq  banded1-R2-2.fastq  banded3-R1-1.fastq  banded3-R2-2.fastq
+chmod +x nome:
+conda activate preSNPcalling
+bash fastqc.sh&
+
+Criar arquivos Multiqc:
+Abrir um diretorio e colocar todo:
+mkdir QC
+E MOVER TODOS HTML E ZIP : 
+mv *.html QC/
+mv *.zip QC/
+conda activate preSNPcalling
+conda deactivate
+mamba create -n multiqc -c bioconda multiqc
+conda activate multiqc : ATIVA O PROGRAMA
+
