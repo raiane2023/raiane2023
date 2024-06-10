@@ -32,4 +32,6 @@ conda activate preSNPcalling
 conda deactivate
 mamba create -n multiqc -c bioconda multiqc
 conda activate multiqc : ATIVA O PROGRAMA
+Rodar o script: nohup ./bam.sh > bam.out
+
 
