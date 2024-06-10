@@ -18,3 +18,17 @@ awk '{ print $1 }' : para filtrar Colunas
 md5sun: verifica qualidade da transferencia (ex: md5sum -c nome do arquivo)
 scp, rsync, sftp: descarrega arquivos remotamente.
 rsync: descarrega e verefica a qualidade
+
+BWA:
+Variable.entorno:
+Ref:/data1/raiane/refer
+Trimm:/data1/raiane/trimmed
+Out:/data1/raiane/trimmed
+
+bwa-mem2 mem -t 2 -M -R '@RG\tID:banded1\tLB:banded1\tPL:ILLUMINA\tPU:A00887\tSM:banded1' $REF/hum $TRIM/banded1_R1_trimmed.fq $TRIM/banded1_R2_trimmed.fq >$OUT/trimmed banded1.sam
+
+bwa-mem2 mem -t 2 -M -R '@RG\tID:banded3\tLB:banded3\tPL:ILLUMINA\tPU:A00887\tSM:banded3' $REF/hum $TRIM/banded1_R1_trimmed.fq $TRIM/banded1_R2_trimmed.fq >$OUT/trimmed banded1.sam
+
+
+De poder Chmod
+Rodar: nohup ./bam.sh > bam.out
