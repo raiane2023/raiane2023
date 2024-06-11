@@ -1,6 +1,4 @@
-Instalar Linux
-
-Comandos:
+LINUX COMANDOS
 
 ls: mostra o que tem na pasta
 
@@ -48,3 +46,10 @@ du -h: mostra quantos gigas usei
 sftp: envia ou transfere arquivos do windows PowerShell para o servidor do Linux.
 mput test: enviar para edna
 get: para buscar do Edna
+
+wget curl: Descarregar arquivos
+
+awk '{ print $1 }' : para filtrar Colunas 
+md5sun: verifica qualidade da transferencia (ex: md5sum -c nome do arquivo)
+scp, rsync, sftp: descarrega arquivos remotamente.
+rsync: descarrega e verefica a qualidade.
