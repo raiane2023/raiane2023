@@ -1,8 +1,8 @@
  *BWA*
-Variable.entorno:
-REF=/ (caminho de onde esta sua referencia indexada)
-TRIM=/(caminho de onde estão suas sequencias)
-OUT=/(caminho de onde irá seu output)
+#Variable.entorno:
+#REF=/ (caminho de onde esta sua referencia indexada)
+#TRIM=/(caminho de onde estão suas sequencias)
+#OUT=/(caminho de onde irá seu output)
 
 Colar no Nano:
 
