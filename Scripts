@@ -1,40 +1,78 @@
-Scripts:
->nano
-md5sum nombre.vgf > md5sum-vcf.txt
-ctrlO: nomeia o mome: md5sum.thais.sh
-terminado em SH: arquivo bash
-Eliminar uma pasta: rm -r nome
-chmod +x nome: faz com que o Scrip seja executavel sozinho- EMPODERA
-nohup ./rosa.sh: entrega um arquivo de out 
-./ situa a carpeta
-# bu bash: como será seu arquivo
-# pbs -n: nome do arquivo
-# pbs -waltime: 16:00:00
-# pbs -j: 40
-# pbs - email
-|Modulos 
-Toolchain
-Entorno de variabels|
-> converter
-Abrir Nano: escrever Fastqc 
-banded1-R1-1.fastq  banded1-R2-2.fastq  banded3-R1-1.fastq  banded3-R2-2.fastq
+*DESCARREGAR REFERENCIA*
+
+#Referencia de Spheniscus huboldti
+#Ir no NCBI - Procurar pela espécie - Assembly- FTP 
+Comando: wget --recursive -e robots=off --reject "index.html" --no-host-directories --cut-dirs=6 
+#mais o site de referencia:
+https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/027/474/245/GCA_027474245.1_bSphHub1.pri
+#mais o fna 
+/GCA_027474245.1_bSphHub1.pri_genomic.fna.gz
+
+#Abrir uma carpeta, empodera-la e colocar:
+EX: wget --recursive -e robots=off --reject "index.html" --no-host-directories --cut-dirs=6 https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/027/474/245/GCA_027474245.1_bSphHub1.pri/GCA_027474245.1_bSphHub1.pri_genomic.fna.gz
+
+Para desZipar: gzip -d 
+#mais o arquivo fna: (EX: gzip -d GCA_027474245.1_bSphHub1.pri_genomic.fna.gz)
+#lembre-se de entrar dentro da carpeta da referencia (EX: GCA_027474245.1_bSphHub1.pri_genomic.fna.gz)
+
+Para verificar se há desZipado 
+#coloque o comando gzip e o arquvo descompactado (EX: gzip GCA_027474245.1_bSphHub1.pri_genomic.fna)
+
+
+*INDEXAR*
+#Trocar de ambiente, iremos fazer no Conda, ativando: conda activate preSNPcalling
+Comando: bwa-mem2 index -p hum GCA_027474245.1_bSphHub1.pri_genomic.fna
+
+
+LIMPEZA FAST
+*FASTQC* 
+# Nesta etapa irá limpar as sequencias
+# preSNPcalling ativado
+# Ir na carpeta em que esta os reads
+# Abrir o nano
+# Escrever: banded1-R1-1.fastq  banded1-R2-2.fastq  banded3-R1-1.fastq  banded3-R2-2.fastq
 chmod +x nome:
 conda activate preSNPcalling
 bash fastqc.sh&
 
+Vai gerar arquivos html e zip, para avaliar.
+Tem que baixar para sua maquina para visualizar
+
+*SUBIDA e DESCARGA de Arquivos*
+Abrir outra janela do ubuntu pelo Power Shell
+Del rosalind a tu compu:
+rsync -azvrP -e ssh raiane#@146.155.217.130:ruta/al/archivo/que/quieres/descargar/en/rosalind ruta/en/tu/compu
+
+Desde tu compu al rosalind
+rsync -azvrP -e ssh raiane/en/tu/compu lab#@146.155.217.130:ruta/al/archivo/que/quieres/descargar/en/rosalind
+
+(EX: rsync -azvrP -e ssh raiane@146.155.217.130:/data1/raiane/*html ./)
+#Procurar na pasta que foi descarregada para visualizar. 
+
+
+*CRIAR ARQUIVOS MULTqc* 
+#neste arquivo mostra todos fastqc juntos 
 Criar arquivos Multiqc:
 Abrir um diretorio e colocar todo:
-mkdir QC
-E MOVER TODOS HTML E ZIP : 
-mv *.html QC/
-mv *.zip QC/
+mkdir E MOVER TODOS HTML E ZIP : 
+mv *.html 4multi
+mv *.zip 4multi
 conda activate preSNPcalling
 conda deactivate
 mamba create -n multiqc -c bioconda multiqc
 conda activate multiqc : ATIVA O PROGRAMA
-Rodar o script: nohup ./bam.sh > bam.out
+Rodar o script: nohup ./5fastp.sh > 5fastp.out &
 
-Fastp
-list="banded1 banded3"
-fastp -i  ${sample}-R1-1.fastq -I  ${sample}-R2-2.fastq -o ${sample}_R1_trimmed.fq -O ${sample}_R2_trimmed.fq -h $report_html -j $report_json --qualified_quality_phred 15 --unqualified_percent_limit 40 -e 30 -l 36 --trim_poly_g --correction --thread 6
-done
+
+*TRIMMEM*
+Fazer no Fastp
+Desativar o ambiente multiqc: conda deactivate
+Ativar o preSNPcalling.
+#NANO COLAR:
+fastp -i banded1-R1-1.fastq -I banded1-R2-2.fastq -o banded1_R1_trimmed.fq -O banded1_R2_trimmed.fq -h $report_html -j $report_json --qualified_quality_phred 15 --unqualified_percent_limit 40 -e 30 -l 36 --trim_poly_g --correction --thread 6
+fastp -i banded3-R1-1.fastq -I banded3-R2-2.fastq -o banded3_R1_trimmed.fq -O banded3_R2_trimmed.fq -h $report_html -j $report_json --qualified_quality_phred 15 --unqualified_percent_limit 40 -e 30 -l 36 --trim_poly_g --correction --thread 6
+
+Rodar o script: nohup ./5fasp.sh > 5fasp.out &
+Gerará os arquivos trimm
+
+
