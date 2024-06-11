@@ -1,15 +1,20 @@
-
-
-BWA:
+ *BWA*
 Variable.entorno:
-Ref:/data1/raiane/refer
-Trimm:/data1/raiane/trimmed
-Out:/data1/raiane/trimmed
+REF=/ (caminho de onde esta sua referencia indexada)
+TRIM=/(caminho de onde estão suas sequencias)
+OUT=/(caminho de onde irá seu output)
 
+Colar no Nano:
+
+REF=/data1/raiane/1refer/hum
+TRIM=/data1/raiane/trimmed 
+OUT=/data1/raiane/trimmed 
 bwa-mem2 mem -t 2 -M -R '@RG\tID:banded1\tLB:banded1\tPL:ILLUMINA\tPU:A00887\tSM:banded1' $REF/hum $TRIM/banded1_R1_trimmed.fq $TRIM/banded1_R2_trimmed.fq >$OUT/trimmed banded1.sam
-
 bwa-mem2 mem -t 2 -M -R '@RG\tID:banded3\tLB:banded3\tPL:ILLUMINA\tPU:A00887\tSM:banded3' $REF/hum $TRIM/banded1_R1_trimmed.fq $TRIM/banded1_R2_trimmed.fq >$OUT/trimmed banded1.sam
 
 
 De poder Chmod
-Rodar: nohup ./bam.sh > bam.out
+Rodar: nohup ./bam.sh > bam.out &
+
+Comando ps -u:mostra tudo o que esta correndo
+        ls -sh: lista todos arquivos da carpeta e seus pesos
