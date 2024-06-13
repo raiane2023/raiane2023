@@ -74,5 +74,5 @@ fastp -i banded3-R1-1.fastq -I banded3-R2-2.fastq -o banded3_R1_trimmed.fq -O ba
 
 Rodar o script: nohup ./5fasp.sh > 5fasp.out &
 Gerará os arquivos trimm
-
+.
 
