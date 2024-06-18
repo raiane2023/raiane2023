@@ -1,0 +1,60 @@
+_____________________Filtros________________________
+**Dict**
+
+- Para criar um "dicionário" de referencias 
+#Ativar diretório: conda activate picard
+
+Script:
+picard CreateSequenceDictionary -R GCA_027474245.1_bSphHub1.pri_genomic.fna --CREATE_MD5_FILE true -O GCA_027474245.1_bSphHub1.pri_genomic.dict --VALIDATION_STRINGENCY LENIENT --VERBOSITY ERROR
+
+**FAI**
+
+- Um indice que Permite saber o tamanho de cada um dos cromossomos, de onde começa e termina um cromossomo particular, para chamar as variantes.
+conda activate preSNPcalling
+
+Script direto no diretório não precisa de nano:
+samtools faidx GCA_027474245.1_bSphHub1.pri_genomic.fna
+
+Ex RESULTADOS :
+cromossomo      tamanho         de onde -a onde  
+CM049887.1      231542106       94      80      81
+CM049888.1      180138745       234436571       80      81
+CM049889.1      136016534       416827145       80      81
+CM049890.1      92123466        554543980       80      81
+
+
+**AWK**
+-Seleciona somente a(s) coluna(s) que tem interesse: 
+
+awk  '{print $1}' GCA_027474245.1_bSphHub1.pri_genomic.fna.fai
+awk  '{print $1,$2}' GCA_027474245.1_bSphHub1.pri_genomic.fna.fai
+
+
+**Markduplicate**
+- Seleciona os arquivos duplicados de Sorted.bam
+activate picard
+
+Script:
+picard MarkDuplicates I=CH40_sorted.bam O=CH40_sorted_dedup.bam METRICS_FILE=CH40_sorted_dedup.metrics.txt VALIDATION_STRINGENCY=LENIENT CREATE_INDEX=true CREATE_MD5_FILE=true TAGGING_POLICY=All ASSUME_SORT_ORDER=coordinate 
+
+: Gerará 2 arquivos: CH40_sorted_dedup.bai e CH40_sorted_dedup.bam  
+
+nohup ./mf2.sh > mf2.out &
+
+**GATK3**
+- Identificar os indices de inserção e deleções por local e realinha. 
+
+ativar o : conda activate gatk3
+
+Script
+gatk -nt 6 -T RealignerTargetCreator -R ../Hum/GCA_027474245.1_bSphHub1.pri_genomic.fna -I CH40_sorted_dedup.bam -o CH40.realn.intervals -allowPotentiallyMisencodedQuals -S LENIENT
+
+nohup ./mf2.sh > mf2.out &
+
+gatk -T IndelRealigner -R /data1/fabiola/Zlab/Hum/GCA_027474245.1_bSphHub1.pri_genomic.fna -I /data1/fabiola/Zlab/raiane/CH40_sorted_dedup.bam -targetIntervals /data1/fabiola/Zlab/raiane/CH40.realn.intervals -o /data1/fabiola/Zlab/raiane/CH40.realign.bam -allowPotentiallyMisencodedQuals -S LENIENT --generate_md5
+
+nohup ./mf2.sh > mf2.out &.
+
+*NÃO ESQUECER DE SEMPRE ATIVAR O AMBIENTE ADEQUADO
+
+*Quando tiver algum erro abrir o .out que mostra onde está o erro.
