@@ -1,0 +1,24 @@
+** VCF **
+
+Ativar o ambiente: conda activate handsonVCF
+Primeiro vamos pegar somente a primeira coluna do arquivo .fai e enviar para: chromosome.list.selection
+ 
+Script:
+awk  '{print $1}' GCA_027474245.1_bSphHub1.pri_genomic.fna.fai> chromosome.list.selection
+
+
+#Chamada de Variantes com numero de boostrap (10000), q= qualidade, vm= chamando somente os sitios com variantes
+Criar uma pasta em seu diretório para todos arquivos VCF
+
+Nano
+BAMS=/data1/fabiola/Zlab/Hum/vcf
+REF=/data1/fabiola/Zlab/Hum/vcf
+OUT= /data1/fabiola/Zlab/raiane/vcf
+
+
+cat $BAMS/chromosome.list.selection | xargs -I {} -n 1 -P 10 sh -c 'bcftools mpileup -Ou -f '$REF'/GCA_027474245.1_bSphHub1.pri_genomic.fna.fai -b '$BAMS'/bam.list -d 5000 -q 10 -Q 20  -a DP,>-a DP,SP  –-skip-indels -r {}| bcftools call -f GQ -vm -Oz -o '$OUT'{}.vcf.gz' &  
+
+
+conda activate handsonVCF
+
+nohup ./mf2.sh > mf2.out &
