@@ -12,9 +12,42 @@ OUT=/data1/raiane/trimmed
 bwa-mem2 mem -t 2 -M -R '@RG\tID:banded1\tLB:banded1\tPL:ILLUMINA\tPU:A00887\tSM:banded1' $REF/hum $TRIM/banded1_R1_trimmed.fq $TRIM/banded1_R2_trimmed.fq >$OUT/trimmed banded1.sam
 bwa-mem2 mem -t 2 -M -R '@RG\tID:banded3\tLB:banded3\tPL:ILLUMINA\tPU:A00887\tSM:banded3' $REF/hum $TRIM/banded1_R1_trimmed.fq $TRIM/banded1_R2_trimmed.fq >$OUT/trimmed banded1.sam
 
-
 De poder Chmod
 Rodar: nohup ./bam.sh > bam.out &
 
 Comando ps -u:mostra tudo o que esta correndo
         ls -sh: lista todos arquivos da carpeta e seus pesos
+
+- SORTED - : Ordena todos os reads, coloca como uma 'etiqueta' com coordenadas.
+
+du -sh carpeta: mostra como está o processo 
+
+         **CH40.BAM -> para sorted.bam
+conda activate preSNPcalling
+
+Script: 
+#!/bin/bash
+
+
+#PATH=/data1/fabiola/Zlab
+#OUT=/data1/fabiola/Zlab/raiane
+
+# ordenar os aquivos bam com a função sorted
+samtools sort -o CH40_sorted.bam ../CH40.bam
+
+nohup ./samsorted.sh > samsorted.out
+
+       **MF2.fq -> para MF2.bam -> para sorted.bam
+
+conda activate preSNPcalling
+Script: 
+
+#!/bin/bash
+
+REF=/data1/fabiola/Zlab/Hum
+TRIM=/data1/fabiola/Zlab
+OUT=/data1/fabiola/Zlab/raiane/
+
+bwa-mem2 mem -t 5 -M -R '@RG\tID:MF2\tLB:MF2\tPL:ILLUMINA\tPU:A00887\tSM:MF2' $REF/hum $TRIM/MF2_S20_R1_trimmed.fq  $TRIM/MF2_S20_R2_trimmed.fq  | samtools view -q 20 -f 0x2 -bSh -@ 5  > $OUT/MF2.bam
+
+nohup ./mf2.sh > mf2.out &
