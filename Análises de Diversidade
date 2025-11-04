@@ -1,0 +1,41 @@
+Estatísticas Básicas por População (vcftools)
+
+# Crie arquivos de pop para cada população
+grep "^#CHROM" Z5_maf.recode.vcf | tr '\t' '\n' | tail -n +10 > todas_amostras.txt
+
+# Classifique as amostras por população (baseado nos nomes)
+while read amostra; do
+    case "${amostra,,}" in
+        *bles*|*shg*|*sgs*) echo -e "$amostra\tGeo" ;;
+        *coyar*|*ci*) echo -e "$amostra\tAtri" ;;
+        *cokcoa*|*colgt*) echo -e "$amostra\tBrans" ;;
+        *ker*) echo -e "$amostra\tKer" ;;
+        *cn*) echo -e "$amostra\tMag" ;;
+        *) echo -e "$amostra\tUNKNOWN" ;;
+    esac
+done < todas_amostras.txt > popfile.txt
+
+
+Diversidade Nucleotídica (π) por População
+# Para cada pop
+for pop in Geo Atri Brans Ker Mag; do
+    grep "$pop" popfile.txt | cut -f1 > ${pop}_samples.txt
+    vcftools --vcf Z5_maf.recode.vcf --keep ${pop}_samples.txt --site-pi --out ${pop}_diversity
+done
+
+Result: 
+
+Estatísticas F (Fis) por População
+for pop in Geo Atri Brans Ker Mag; do
+    vcftools --vcf Z5_maf.recode.vcf --keep ${pop}_samples.txt --het --out ${pop}_fis
+done
+
+FST entre Populações
+vcftools --vcf Z5_maf.recode.vcf --weir-fst-pop POP1_samples.txt --weir-fst-pop POP2_samples.txt --out FST_POP1_POP2
+vcftools --vcf Z5_maf.recode.vcf --weir-fst-pop POP1_samples.txt --weir-fst-pop POP3_samples.txt --out FST_POP1_POP3
+
+Sinais de Expansão (Tajima's D)
+for pop in POP1 POP2 POP3 POP4 POP5; do
+    vcftools --vcf Z5_maf.recode.vcf --keep ${pop}_samples.txt --TajimaD 10000 --out ${pop}_tajima
+done
+
